@@ -27,7 +27,7 @@ DEBUG = True
 
 APPEND_SLASH = True
 
-ALLOWED_HOSTS = ["localhost", "ptk-cp.us-south.cf.appdomain.cloud" ]
+ALLOWED_HOSTS = ["localhost", "ptkcp.us-south.cf.appdomain.cloud" ]
 
 
 # Application definition

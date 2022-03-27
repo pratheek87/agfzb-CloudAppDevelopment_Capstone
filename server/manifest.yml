@@ -1,11 +1,11 @@
   applications:
-  - name: djangoapp
+  - name: capstone
     routes:
-      - route: ptk-cp.us-south.cf.appdomain.cloud
+      - route: ptkcp.us-south.cf.appdomain.cloud
     memory: 128M
     buildpack: python_buildpack
-  - name: djangoapp-nginx
+  - name: capstone-nginx
     routes:
-      - route: ptk-cp.us-south.cf.appdomain.cloud/static
+      - route: ptkcp.us-south.cf.appdomain.cloud/static
     memory: 128M
     buildpack: staticfile_buildpack
