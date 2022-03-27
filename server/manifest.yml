@@ -1,11 +1,11 @@
   applications:
   - name: djangoapp
     routes:
-      - route: ptk-cp.api.us-south.cf.cloud.ibm.com
+      - route: ptk-cp.us-south.cf.appdomain.cloud
     memory: 128M
     buildpack: python_buildpack
   - name: djangoapp-nginx
     routes:
-      - route: ptk-cp.api.us-south.cf.cloud.ibm.com
+      - route: ptk-cp.us-south.cf.appdomain.cloud/static
     memory: 128M
     buildpack: staticfile_buildpack
