@@ -27,13 +27,15 @@ class CarMake(models.Model):
 # - __str__ method to print a car make object
 class CarModel(models.Model):
 
+    carTypes = [('SEDAN', 'Sedan'), ('SUV', 'SUV'), ('WAGON', 'WAGON')]
+
     carmodels=models.ForeignKey(CarMake, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     dealerID = models.IntegerField()
-    type = models.CharField(max_length = 50)
+    type = models.CharField(max_length = 50, choices=carTypes,default='SUV')
     year = models.DateField(null=True)
     
-    def __str__():
+    def __str__(self):
         return "Name: " + self.name + ", " + \
                "DealerID " + str(self.dealerID) + ", " + \
                "type: " + self.type + ", " + \
