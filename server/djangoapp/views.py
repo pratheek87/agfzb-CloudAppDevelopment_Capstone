@@ -100,11 +100,11 @@ def get_dealerships(request):
 
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
-def get_dealer_details(request, dealer_id):
+def get_dealer_details(request, dealerID):
     if request.method == "GET":
         url = "https://cce9429f.eu-gb.apigw.appdomain.cloud/review/review"
         # Get dealers from the URL
-        dealerships = get_dealer_reviews_from_cf(url)
+        dealerships = get_dealer_reviews_from_cf(url, dealerID)
         # Concat all dealer's short name
         dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
         # Return a list of dealer short name
