@@ -45,7 +45,7 @@ def get_dealers_from_cf(url, **kwargs):
             # Create a CarDealer object with values in `doc` object
 
 
-            dealer_obj = DealerReview(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
+            dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
                                    id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
                                    short_name=dealer_doc["short_name"],
                                    st=dealer_doc["st"], state= dealer_doc["state"], zip=dealer_doc["zip"])
@@ -70,10 +70,10 @@ def get_dealer_reviews_from_cf(url, **kwargs):
             #dealer_doc = dealer["doc"]
             # Create a CarDealer object with values in `doc` object
 
-            dealer_obj = DealerReview(address=dealer_doc["car_make"], city=dealer_doc["car_model"], full_name=dealer_doc["car_year"],
-                                   id=dealer_doc["dealership"], lat=dealer_doc["id"], long=dealer_doc["name"],
-                                   short_name=dealer_doc["purchase"],
-                                   st=dealer_doc["purchase_date"], state= dealer_doc["review"])
+            dealer_obj = DealerReview(car_make=dealer_doc["car_make"], car_model=dealer_doc["car_model"], car_year=dealer_doc["car_year"],
+                                   dealership=dealer_doc["dealership"], id=dealer_doc["id"], name=dealer_doc["name"],
+                                   purchase=dealer_doc["purchase"],
+                                   purchase_date=dealer_doc["purchase_date"], review= dealer_doc["review"])
             results.append(dealer_obj)
 
     return results
