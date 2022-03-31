@@ -77,15 +77,15 @@ def get_dealer_reviews_from_cf(url, dealerID , **kwargs):
             # Create a CarDealer object with values in `doc` object
 
             if "car_make" not in dealer_doc:
-                continue
-
-            review_obj = DealerReview(car_make=dealer_doc["car_make"], car_model=dealer_doc["car_model"], car_year=dealer_doc["car_year"],
-                                   dealership=dealer_doc["dealership"], id=dealer_doc["id"], name=dealer_doc["name"],
-                                   purchase=dealer_doc["purchase"],
-                                   purchase_date=dealer_doc["purchase_date"], review= dealer_doc["review"])
-            
-            review_obj.sentiment = analyze_review_sentiments(review_obj.review)
-            results.append(review_obj)
+                review_obj = None
+            else:
+                review_obj = DealerReview(car_make=dealer_doc["car_make"], car_model=dealer_doc["car_model"], car_year=dealer_doc["car_year"],
+                                    dealership=dealer_doc["dealership"], id=dealer_doc["id"], name=dealer_doc["name"],
+                                    purchase=dealer_doc["purchase"],
+                                    purchase_date=dealer_doc["purchase_date"], review= dealer_doc["review"])
+                
+                review_obj.sentiment = analyze_review_sentiments(review_obj.review)
+                results.append(review_obj)
 
     return results
 
@@ -106,8 +106,11 @@ def analyze_review_sentiments(text):
     params["return_analyzed_text"] = "true"
     json_result = get_request(url=url, api_key=api_key, **params)
 
-    print(json_result)
-    return 
+    if json_result:
+        if json_result["sentiment"]:
+            return json_result["sentiment"]["document"]["label"]
+        
+    return ' '
 
 
 

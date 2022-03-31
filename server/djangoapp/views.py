@@ -104,15 +104,13 @@ def get_dealer_details(request, dealerID):
     if request.method == "GET":
         url = "https://cce9429f.eu-gb.apigw.appdomain.cloud/review/review"
         # Get dealers from the URL
-        dealerships = get_dealer_reviews_from_cf(url, dealerID)
+        reviews = get_dealer_reviews_from_cf(url, dealerID)
         # Concat all dealer's short name
-        dealer_names = ""
-        for dealer in dealerships:
-            if dealer is not None:
-                dealer_names = dealer_names + (dealer.short_name + "review : " + dealer.sentiment) 
+        #print(reviews)
+        review_string =  ' '.join([review.review + "sentiment :" + review.sentiment for review in reviews])
 
-    return HttpResponse(dealer_names)
-
+    return HttpResponse(review_string)
+    
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):
 # ...
