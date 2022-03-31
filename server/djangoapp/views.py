@@ -112,19 +112,27 @@ def get_dealer_details(request, dealerID):
     return HttpResponse(review_string)
 
 # Create a `add_review` view to submit a review
-def add_review(request, dealer_id):
+def add_review(request):
+    context = {}
+    if request.method == 'GET':
+        return render(request, 'djangoapp/add_review.html', context)
     if request.method == "POST":
-        # Get username and password from request.POST dictionary
-        username = request.POST['username']
-        password = request.POST['psw']
-        url = ""
-        # Try to check if provide credential can be authenticated
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            review["time"] = datetime.utcnow().isoformat()
-            review["dealership"] = 11
-            review["review"] = "This is a great car dealer"
+        
+        url = "https://cce9429f.eu-gb.apigw.appdomain.cloud/postreview/postreview"
 
-            json_payload["review"] = review
-            post_request(url, json_payload, dealerId=dealer_id)
-
+        review = {
+        "id": 112,
+        "name": "Ryder",
+        "dealership": 15,
+        "review": "aWESOME service!",
+        "purchase": False,
+        "another": "field",
+        "purchase_date": "02/16/2021",
+        "car_make": "Benz",
+        "car_model": "Car",
+        "car_year": 2019
+        }
+        json_payload = {}
+        json_payload["review"] = review
+        response = post_request(url, json_payload)
+        return  redirect("djangoapp:index")

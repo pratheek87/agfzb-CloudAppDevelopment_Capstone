@@ -11,6 +11,16 @@
 
 </head>
     <body>
-    <!--Add review form here -->
+        <form action="{% url 'djangoapp:addreview' %}" method="post">
+            <div class="container">
+                
+              <h1>Sign Up</h1>
+              <hr>
+              <div>
+                  {% csrf_token %}
+                  <button class="button" type="submit">Add Review</button>
+              </div>
+            </div>
+          </form>
     </body>
 </html>

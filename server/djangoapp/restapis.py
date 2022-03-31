@@ -110,8 +110,11 @@ def analyze_review_sentiments(text):
         if json_result["sentiment"]:
             return json_result["sentiment"]["document"]["label"]
         
-    return ' '
+    return ''
 
 
 def post_request(url, json_payload, **kwargs):
-    requests.post(url, params=kwargs, json=json_payload)
+    print(url)
+    response_1 = requests.post(url, params=kwargs, json=json_payload)
+    json_data_new = json.loads(response_1.text)
+    return json_data_new
