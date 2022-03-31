@@ -15,7 +15,7 @@ def get_request(url, api_key, **kwargs):
     try:
         # Call get method of requests library with URL and parameters
         if api_key:
-            requests.get(url, params=kwargs, headers={'Content-Type': 'application/json'},
+            response = requests.get(url, params=kwargs, headers={'Content-Type': 'application/json'},
                                     auth=HTTPBasicAuth('apikey', api_key))
         else:     
             response = requests.get(url, headers={'Content-Type': 'application/json'},
@@ -38,7 +38,7 @@ def get_request(url, api_key, **kwargs):
 def get_dealers_from_cf(url, **kwargs):
     results = []
     # Call get_request with a URL parameter
-    json_result = get_request(url)
+    json_result = get_request(url, None)
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result["dealerships"]
@@ -64,7 +64,7 @@ def get_dealers_from_cf(url, **kwargs):
 def get_dealer_reviews_from_cf(url, dealerID , **kwargs):
     results = []
     # Call get_request with a URL parameter
-    json_result = get_request(url, dealerID=dealerID)
+    json_result = get_request(url, None, dealerID=dealerID)
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result["dealerships"]
@@ -73,6 +73,9 @@ def get_dealer_reviews_from_cf(url, dealerID , **kwargs):
             # Get its content in `doc` object
             #dealer_doc = dealer["doc"]
             # Create a CarDealer object with values in `doc` object
+
+            if "car_make" not in dealer_doc:
+                continue
 
             review_obj = DealerReview(car_make=dealer_doc["car_make"], car_model=dealer_doc["car_model"], car_year=dealer_doc["car_year"],
                                    dealership=dealer_doc["dealership"], id=dealer_doc["id"], name=dealer_doc["name"],
@@ -93,14 +96,19 @@ def analyze_review_sentiments(text):
 
     url = "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/aeacd8b7-370f-4bc3-9e23-31f89444bc6b"
     api_key = "9PSFdAwVgYinpWHcfk-Nkg9K5nZfBAYq8LES13vGPsju"
+    features: {
+        "keywords": {
+            "emotion": true,
+            "limit": 1
+        }
+    }
     params = dict()
-    params["text"] = kwargs["text"]
-    params["version"] = kwargs["version"]
-    params["features"] = kwargs["features"]
-    params["return_analyzed_text"] = kwargs["return_analyzed_text"]
-    response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
-                                    auth=HTTPBasicAuth('apikey', api_key))
-    print(response)
+    params["text"] = text
+    params["version"] = '2021-08-01'
+    params["features"] = {"keywords": {"emotion": True,"limit": 1}}
+    json_result = get_request(url=url, api_key=api_key, **params)
+    print(json_result)
+    
 
 
 
