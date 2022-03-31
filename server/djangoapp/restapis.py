@@ -113,5 +113,5 @@ def analyze_review_sentiments(text):
     return ' '
 
 
-
-
+def post_request(url, json_payload, **kwargs):
+    requests.post(url, params=kwargs, json=json_payload)
