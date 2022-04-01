@@ -15,7 +15,7 @@
             <ul class="nav navbar-nav navbar-left">
                 {% if user.is_authenticated %}
                 <li>
-                    <a class="btn btn-link" href="{% url 'djangoapp:addreview' %}">Add Review</a>
+                    <a class="btn btn-link" href="{% url 'djangoapp:addreview' dealerID %}">Add Review</a>
                 </li>
                 {% else %}
                 <li>

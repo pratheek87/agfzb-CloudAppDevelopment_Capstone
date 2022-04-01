@@ -17,17 +17,17 @@
    </script>
 </head>
     <body>
-        <form action="{% url 'djangoapp:addreview' %}" method="post">
+        <form action="{% url 'djangoapp:addreview' dealerID %}" method="post">
             <div class="container">
                 
               <h1><b>Add a review about Sub-Ex Car Dealership</b></h1>
               <hr>
               <div class="form-group">
                 <label for="reviewcontent">Enter the review content</label>
-                <textarea class="form-control" id="review_text" rows="4"></textarea>
+                <textarea class="form-control" name ="review" id="review_text" rows="4"></textarea>
               </div>
               <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="purchased_selection">
+                <input type="checkbox" class="form-check-input" name="purchase" id="purchased_selection">
                 <label class="form-check-label" for="has_purchased">
                     Has Purchased the car from Sub-Ex Car Dealership ? 
                     <p class="text-muted"> (select purchased car information below if checked) </p>
@@ -39,12 +39,13 @@
                 <label for="car_make_label"><b> Select your car<b> </label>
                 <select name="car" id="car" class="form-select" required>
                     {% for car in cars%}
-                        <option selected value={{car.id}}>{{car.name}}--{{car.carmodels.name}}--{{car.year}}</option>
+                        <option selected value={{car.id}} name="car"
+                        >{{car.name}}--{{car.carmodels.name}}--{{car.year}}</option>
                     {% endfor %}
                </select>
               </div>
             </br> 
-            <input type="date" name="bday" required pattern="\d{4}-\d{2}-\d{2}">
+            <input type="date" name="purchase_date" required pattern="\d{4}-\d{2}-\d{2}">
             </br> 
              </br> 
               <div>

@@ -117,32 +117,41 @@ def get_dealer_details(request, dealerID):
             review.purchase_date_year = parser.parse(reviews[0].purchase_date).date().year
 
         context["reviews"] = reviews
+        context["dealerID"] = dealerID
     return render(request, 'djangoapp/dealer_details.html', context)
 
 # Create a `add_review` view to submit a review
-def add_review(request):
+def add_review(request, dealerID):
 
     context = {}
     if request.method == 'GET':
         context["cars"] = CarModel.objects.all()
+        context['dealerID'] = dealerID
         return render(request, 'djangoapp/add_review.html', context)
     if request.method == "POST":
         
         url = "https://cce9429f.eu-gb.apigw.appdomain.cloud/postreview/postreview"
 
+        car = CarModel.objects.all()[int(request.POST["car"])-1]
+
+        purchase = False
+        if "purchase" in request.POST:
+            purchase = True
+
         review = {
-        "id": 112,
-        "name": "Ryder",
-        "dealership": 15,
-        "review": "aWESOME service!",
-        "purchase": False,
-        "another": "field",
-        "purchase_date": "02/16/2021",
-        "car_make": "Benz",
-        "car_model": "Car",
-        "car_year": 2019
+        "id": dealerID,
+        "name": str(request.user),
+        "dealership": car.dealerID,
+        "review": request.POST["review"],
+        "purchase": purchase,
+        "purchase_date":request.POST["purchase_date"],
+        "car_make": car.name,
+        "car_model": car.carmodels.name,
+        "car_year": car.year.strftime("%m/%d/%Y")
         }
+
         json_payload = {}
         json_payload["review"] = review
+        print(review)
         response = post_request(url, json_payload)
-        return  redirect("djangoapp:dealer_details")
+        return  redirect("djangoapp:dealer_details", dealerID)

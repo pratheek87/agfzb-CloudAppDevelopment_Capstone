@@ -111,7 +111,8 @@ def analyze_review_sentiments(text):
 
 
 def post_request(url, json_payload, **kwargs):
-    print(url)
+    print("post-requesst" + str(url))
     response_1 = requests.post(url, params=kwargs, json=json_payload)
     json_data_new = json.loads(response_1.text)
+    print(response_1.text)
     return json_data_new
