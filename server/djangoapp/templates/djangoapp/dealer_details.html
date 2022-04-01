@@ -10,8 +10,37 @@
     <body>
 
     <!--Add a nav bar here -->
-
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav navbar-left">
+                {% if user.is_authenticated %}
+                <li>
+                    <a class="btn btn-link" href="{% url 'djangoapp:addreview' %}">Add Review</a>
+                </li>
+                {% else %}
+                <li>
+                    <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Username" name="username" >
+                            <input type="password" class="form-control" placeholder="Password" name="psw" >
+                            <button class="btn btn-primary" type="submit">Login</button>
+                            <a class="btn btn-link" href="{% url 'djangoapp:index' %}">Sign Up</a>
+                        </div>
+                    </form>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
     <!-- Add reviews as cards -->
+    {% for review in reviews %}
+    <div class="card">
+        <h5> {{review.name}}</h5>
+        <h5> {{review.purchase_date}}</h5>
+        <p>{{review.review}}</p>
+    </div>
+    {% endfor %}
 
     </body>
 
