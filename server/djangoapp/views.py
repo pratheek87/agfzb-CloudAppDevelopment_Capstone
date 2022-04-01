@@ -9,6 +9,7 @@ from django.contrib import messages
 from datetime import datetime
 import logging
 import json
+from dateutil import parser
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -111,6 +112,10 @@ def get_dealer_details(request, dealerID):
         #print(reviews)
         review_string =  ' '.join([review.review + "sentiment :" + review.sentiment for review in reviews])
         context = {}
+
+        for review in reviews:
+            review.purchase_date_year = parser.parse(reviews[0].purchase_date).date().year
+
         context["reviews"] = reviews
     return render(request, 'djangoapp/dealer_details.html', context)
 
